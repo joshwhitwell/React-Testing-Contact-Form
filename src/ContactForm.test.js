@@ -6,9 +6,7 @@ describe('ContactForm Tests', () => {
     test("renders ContactForm without crashing", () => {
       rlt.render(<ContactForm />);
     });
-})
 
-describe('can type in input fields', () => {
     test('can type in input files', () => {
         //Render Form
         rlt.render(<ContactForm />);
@@ -32,6 +30,23 @@ describe('can type in input fields', () => {
         expect(eInput.value === 'josh.whitwell@gmail.com').toBeTruthy()
         expect(mInput.value === 'nothing much to say').toBeTruthy()
     })
+
+    test('can submit form', async () => {
+        //Render Form
+        rlt.render(<ContactForm />)
+        
+        //Grab Input Elements
+        const fnInput = rlt.screen.getByLabelText(/First Name*/i)
+        const lnInput = rlt.screen.getByLabelText(/Last Name*/i)
+        const eInput = rlt.screen.getByLabelText(/Email*/i)
+        const mInput = rlt.screen.getByLabelText(/Message/i)
+        const button = rlt.screen.getByRole('button', {type: /submit/i})
+
+        //Test Cannot Submit Blank
+        rlt.fireEvent.click(button)
+        
+        const newPerson = await rlt.screen.findByText(/required/i)
+    }) 
 })
 
     
